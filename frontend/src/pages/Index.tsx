@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import NewForm from "@/components/NewForm";
+import axios from "axios";
+
 
 // Mock data for demonstration
 const mockWebsites = [
@@ -90,20 +92,30 @@ const Index = () => {
     name: "",
     feedback: "",
   });
-  const handleNewFormSubmit = (formData: { link: string; name: string; feedback: string }) => {
+  const handleNewFormSubmit = async (formData: { link: string; name: string; feedback: string }) => {
     const newWebsite = {
       id: websites.length + 1,
       name: formData.name || new URL(formData.link).hostname,
       url: formData.link,
       rating: 0,
       status: "Suspicious" as const,
+      feedback: formData.feedback,
     };
 
-    setWebsites([newWebsite, ...websites]);
-    setSearchResults([newWebsite, ...searchResults]);
+    try {
+      const response = await axios.post("http://localhost:3000/new", newWebsite);
 
-    // Reset the form
-    setNewForm({ link: "", name: "", feedback: "" });
+      const savedWebsite = response.data;
+
+      // Update frontend state with backend response
+      setWebsites([savedWebsite, ...websites]);
+      setSearchResults([savedWebsite, ...searchResults]);
+
+      // Reset form
+      setNewForm({ link: "", name: "", feedback: "" });
+    } catch (error) {
+      console.error("Failed to submit new website:", error);
+    }
   };
 
   return (
@@ -129,7 +141,7 @@ const Index = () => {
             <div className="flex justify-end mb-6">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button className="rounded-lg"><Plus />New</Button>
+                  <Button className="rounded-lg"><Plus />New Website</Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
