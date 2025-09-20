@@ -3,6 +3,17 @@ import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import WebsiteCard from "@/components/WebsiteCard";
 import Sidebar from "@/components/Sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import NewForm from "@/components/NewForm";
 
 // Mock data for demonstration
 const mockWebsites = [
@@ -33,7 +44,7 @@ const mockWebsites = [
     url: "https://paypal.com",
     rating: 5,
     status: "Legit" as const,
-  },  
+  },
   {
     id: 5,
     name: "Suspicious Investment",
@@ -74,11 +85,31 @@ const Index = () => {
     setWebsites([newWebsite, ...websites]);
     setSearchResults([newWebsite, ...searchResults]);
   };
+  const [newForm, setNewForm] = useState({
+    link: "",
+    name: "",
+    feedback: "",
+  });
+  const handleNewFormSubmit = (formData: { link: string; name: string; feedback: string }) => {
+    const newWebsite = {
+      id: websites.length + 1,
+      name: formData.name || new URL(formData.link).hostname,
+      url: formData.link,
+      rating: 0,
+      status: "Suspicious" as const,
+    };
+
+    setWebsites([newWebsite, ...websites]);
+    setSearchResults([newWebsite, ...searchResults]);
+
+    // Reset the form
+    setNewForm({ link: "", name: "", feedback: "" });
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="flex">
         {/* Main Content */}
         <main className="flex-1 p-8">
@@ -93,6 +124,23 @@ const Index = () => {
               </p>
               <SearchBar onSearch={handleSearch} />
             </div>
+
+            {/* Dialog Section */}
+            <div className="flex justify-end mb-6">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="rounded-lg"><Plus />New</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add a New Website</DialogTitle>
+                    <DialogDescription>Enter website details below:</DialogDescription>
+                  </DialogHeader>
+                  <NewForm formData={newForm} setFormData={setNewForm} onSubmit={handleNewFormSubmit} />
+                </DialogContent>
+              </Dialog>
+            </div>
+
 
             {/* Results Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
