@@ -1,0 +1,13 @@
+{
+  "url": "https://rohan-revu.github.io/test1/",
+  "autoCheckedBoxes": [
+    "<input type=\"checkbox\" name=\"auto_renew\" checked=\"\">",
+    "<input type=\"checkbox\" name=\"email_promo\" checked=\"\">"
+  ],
+  "hiddenButtons": [],
+  "confirmShaming": [
+    "educational demo: this site showcases dark patterns for awareness only.\nno real data is collected or processed.\ndo not enter personal information.\nsubscribe for premium access\nemail address\n\nsave 80% - exclusive offer!\n send me promotional emails\nby continuing, you agree to our t&c and privacy policy.\nyour card will be charged ₹ 199/month after the 3-day trial.\nunsubscribe option may not be directly visible.\ncancel subscription\nare you sure you want to lose all your benefits?\nno, keep my perks cancel anyway\n© 2025 dark pattern demo. for educational awareness only.",
+    "are you sure you want to lose all your benefits?\nno, keep my perks cancel anyway"
+  ],
+  "redirectCount": 0
+}
