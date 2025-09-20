@@ -7,12 +7,9 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-<<<<<<< HEAD
 import Detector from "./components/detector/Detector"; // 👈 import your new page
-=======
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
->>>>>>> 3b3413cb1c3860522764756d3d5ef48e63b7862d
 
 const queryClient = new QueryClient();
 
@@ -27,14 +24,11 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-<<<<<<< HEAD
           <Route path="/detect" element={<Detector />} /> {/* 👈 new route */}
           
           {/* Catch-all route should always stay at the bottom */}
-=======
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
->>>>>>> 3b3413cb1c3860522764756d3d5ef48e63b7862d
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
