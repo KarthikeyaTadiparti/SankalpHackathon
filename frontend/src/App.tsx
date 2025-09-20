@@ -7,12 +7,14 @@ import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Detector from "./components/detector/Detector"; // 👈 import your new page
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      {/* Toasts can be enabled when needed */}
       {/* <Toaster />
       <Sonner /> */}
       <BrowserRouter>
@@ -20,7 +22,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/detect" element={<Detector />} /> {/* 👈 new route */}
+          
+          {/* Catch-all route should always stay at the bottom */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

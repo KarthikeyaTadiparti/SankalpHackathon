@@ -2,23 +2,21 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
-interface SidebarProps {
-  onAddWebsite: (url: string) => void;
-}
-
-const Sidebar = ({ onAddWebsite }: SidebarProps) => {
+const Sidebar = () => {
   const [newUrl, setNewUrl] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newUrl.trim()) {
-      onAddWebsite(newUrl.trim());
+      navigate(`/detect?url=${encodeURIComponent(newUrl.trim())}`);
       setNewUrl("");
       toast({
-        title: "Website Added",
-        description: "The website has been submitted for review.",
+        title: "Website Submitted",
+        description: "Redirecting to detection results...",
       });
     }
   };
@@ -44,7 +42,7 @@ const Sidebar = ({ onAddWebsite }: SidebarProps) => {
             type="submit"
             className="w-full bg-primary text-primary-foreground hover:bg-dark-gray"
           >
-            Add
+            Check
           </Button>
         </form>
       </div>
@@ -54,7 +52,7 @@ const Sidebar = ({ onAddWebsite }: SidebarProps) => {
         <ul className="text-xs text-muted-foreground space-y-2">
           <li>• Submit a website URL for review</li>
           <li>• Our system analyzes the site</li>
-          <li>• Results appear in the main feed</li>
+          <li>• Results appear in the detect page</li>
           <li>• Help others avoid scams</li>
         </ul>
       </div>
