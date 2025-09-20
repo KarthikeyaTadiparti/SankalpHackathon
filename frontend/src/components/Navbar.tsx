@@ -24,7 +24,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex gap-2 text-xl font-semibold text-foreground">
-              <TriangleAlert />ScamCheck
+              <TriangleAlert />Dark UX Detector
             </Link>
           </div>
 

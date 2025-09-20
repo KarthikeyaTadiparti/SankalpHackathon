@@ -6,9 +6,11 @@ interface WebsiteCardProps {
   url: string;
   rating: number;
   status: "Legit" | "Scam" | "Suspicious";
+  feedback?: string;
+  username?: string;
 }
 
-const WebsiteCard = ({ name, url, rating, status }: WebsiteCardProps) => {
+const WebsiteCard = ({ name, url, rating, status, feedback, username }: WebsiteCardProps) => {
   const getBadgeClasses = (status: string) => {
     switch (status) {
       case "Legit":
@@ -22,36 +24,43 @@ const WebsiteCard = ({ name, url, rating, status }: WebsiteCardProps) => {
     }
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
+  const renderStars = (rating: number) =>
+    Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`}
+        className={`w-4 h-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
       />
     ));
-  };
 
   return (
-    <div className="bg-white border border-gray-300 rounded-lg p-6 hover:bg-gray-50 transition-colors cursor-pointer">
-      <div className="space-y-3">
-        {/* Website Name */}
-        <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+    <div className="bg-white border border-gray-300 rounded-lg p-6 hover:bg-gray-50 transition-colors cursor-pointer shadow-sm">
+      <div className="space-y-2">
+        <h3 className="text-lg font-semibold text-gray-900 truncate">{name}</h3>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-blue-600 underline truncate block"
+        >
+          {url}
+        </a>
 
-        {/* Website URL */}
-        <p className="text-sm text-gray-600 underline truncate">{url}</p>
-
-        {/* Rating */}
         <div className="flex items-center gap-1">
           {renderStars(rating)}
           <span className="ml-2 text-sm text-gray-600">({rating}/5)</span>
         </div>
 
-        {/* Status Badge */}
-        <div className="flex items-center justify-between">
+        {feedback && (
+          <p className="text-sm text-gray-700 italic">
+            "{feedback}" {username && `- ${username}`}
+          </p>
+        )}
+
+        {/* <div className="flex items-center justify-start mt-2">
           <Badge className={`border ${getBadgeClasses(status)} px-3 py-1 rounded-full`}>
             {status}
           </Badge>
-        </div>
+        </div> */}
       </div>
     </div>
   );
