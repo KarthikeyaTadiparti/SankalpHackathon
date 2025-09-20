@@ -31,7 +31,7 @@ const SearchBar = ({ onSearch }: SearchBarProps) => {
           variant="default"
           className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg font-medium"
         >
-          Check
+          Search
         </Button>
       </form>
     </div>

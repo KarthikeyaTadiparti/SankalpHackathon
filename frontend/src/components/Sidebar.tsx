@@ -22,7 +22,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-80 bg-sidebar-bg border-l border-border h-[665px] p-6 flex flex-col justify-between">
+    <div className="w-80 bg-sidebar-bg border-l border-border min-h-full p-6 flex flex-col justify-between">
       <div className="space-y-6">
         <h2 className="text-xl font-semibold text-foreground">Add New Website</h2>
         

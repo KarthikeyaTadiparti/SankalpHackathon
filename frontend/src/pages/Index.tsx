@@ -1,108 +1,139 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import WebsiteCard from "@/components/WebsiteCard";
 import Sidebar from "@/components/Sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import NewForm from "@/components/NewForm";
+import axios from "axios";
 
-// Mock data for demonstration
-const mockWebsites = [
-  {
-    id: 1,
-    name: "Amazon",
-    url: "https://amazon.com",
-    rating: 5,
-    status: "Legit" as const,
-  },
-  {
-    id: 2,
-    name: "Fake Shopping Site",
-    url: "https://fake-deals-now.com",
-    rating: 1,
-    status: "Scam" as const,
-  },
-  {
-    id: 3,
-    name: "Unknown Marketplace",
-    url: "https://quick-buy-store.net",
-    rating: 3,
-    status: "Suspicious" as const,
-  },
-  {
-    id: 4,
-    name: "PayPal",
-    url: "https://paypal.com",
-    rating: 5,
-    status: "Legit" as const,
-  },  
-  {
-    id: 5,
-    name: "Suspicious Investment",
-    url: "https://get-rich-quick.info",
-    rating: 2,
-    status: "Suspicious" as const,
-  },
-  {
-    id: 6,
-    name: "Phishing Bank Site",
-    url: "https://bank-login-secure.tk",
-    rating: 1,
-    status: "Scam" as const,
-  },
-];
+interface WebsiteType {
+  _id: string;
+  websiteName: string;
+  websiteUrl: string;
+  feedback: string;
+  rating: number;
+  username: string;
+  status: "Legit" | "Scam" | "Suspicious";
+  createdAt: string;
+}
 
 const Index = () => {
-  const [websites, setWebsites] = useState(mockWebsites);
-  const [searchResults, setSearchResults] = useState(mockWebsites);
+  const [websites, setWebsites] = useState<WebsiteType[]>([]);
+  const [searchResults, setSearchResults] = useState<WebsiteType[]>([]);
+  const [newForm, setNewForm] = useState({ websiteUrl: "", websiteName: "", feedback: "", rating: "1" });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch reviews from backend
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/reviews", { withCredentials: true });
+      setWebsites(response.data);
+      setSearchResults(response.data);
+    } catch (err) {
+      console.error("Failed to fetch reviews:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
   const handleSearch = (query: string) => {
     const filtered = websites.filter(
       (website) =>
-        website.name.toLowerCase().includes(query.toLowerCase()) ||
-        website.url.toLowerCase().includes(query.toLowerCase())
+        website.websiteName.toLowerCase().includes(query.toLowerCase()) ||
+        website.websiteUrl.toLowerCase().includes(query.toLowerCase())
     );
     setSearchResults(filtered);
   };
 
-  const handleAddWebsite = (url: string) => {
+  const handleNewFormSubmit = async (formData: { websiteUrl: string; websiteName: string; feedback: string; rating: string }) => {
     const newWebsite = {
-      id: websites.length + 1,
-      name: new URL(url).hostname,
-      url: url,
-      rating: 0,
-      status: "Suspicious" as const,
+      websiteName: formData.websiteName || new URL(formData.websiteUrl).hostname,
+      websiteUrl: formData.websiteUrl,
+      feedback: formData.feedback,
+      rating: parseInt(formData.rating),
+      username: "user", // Replace with logged-in user
     };
-    setWebsites([newWebsite, ...websites]);
-    setSearchResults([newWebsite, ...searchResults]);
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/reviews", newWebsite, { withCredentials: true });
+      const savedWebsite = response.data;
+
+      setWebsites([savedWebsite, ...websites]);
+      setSearchResults([savedWebsite, ...searchResults]);
+
+      // Reset form
+      setNewForm({ websiteUrl: "", websiteName: "", feedback: "", rating: "1" });
+
+      // Close dialog
+      setIsDialogOpen(false);
+    } catch (err) {
+      console.error("Failed to submit new website:", err);
+    }
   };
+
+  if (loading) return <p className="text-center py-12">Loading reviews...</p>;
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
       <div className="flex">
-        {/* Main Content */}
         <main className="flex-1 p-8">
           <div className="max-w-6xl mx-auto">
-            {/* Search Section */}
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-foreground mb-4">
-                Check Website Legitimacy
-              </h1>
+              <h1 className="text-4xl font-bold text-foreground mb-4">Check Website Legitimacy</h1>
               <p className="text-lg text-muted-foreground mb-8">
                 Verify if a website is legitimate or a potential scam
               </p>
               <SearchBar onSearch={handleSearch} />
             </div>
 
-            {/* Results Grid */}
+            <div className="flex justify-end mb-6">
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="rounded-lg">
+                    <Plus /> New Review
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add a New Review</DialogTitle>
+                    <DialogDescription>Enter website details below:</DialogDescription>
+                  </DialogHeader>
+                  <NewForm
+                    onSubmit={handleNewFormSubmit}
+                    onSuccess={() => setIsDialogOpen(false)}
+                    userId="user-id"
+                    username="username"
+                  />
+                </DialogContent>
+              </Dialog>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {searchResults.map((website) => (
                 <WebsiteCard
-                  key={website.id}
-                  name={website.name}
-                  url={website.url}
+                  key={website._id}
+                  name={website.websiteName}
+                  url={website.websiteUrl}
                   rating={website.rating}
                   status={website.status}
+                  feedback={website.feedback}
+                  username={website.username}
                 />
               ))}
             </div>
@@ -115,8 +146,7 @@ const Index = () => {
           </div>
         </main>
 
-        {/* Sidebar */}
-        <Sidebar onAddWebsite={handleAddWebsite} />
+        <Sidebar onAddWebsite={(url: string) => {}} />
       </div>
     </div>
   );
