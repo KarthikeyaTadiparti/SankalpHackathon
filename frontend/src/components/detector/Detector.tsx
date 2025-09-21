@@ -61,11 +61,7 @@ const Detector: React.FC = () => {
           <h2 className="text-2xl font-semibold mb-6 text-gray-800">Detection Results for <span className="text-indigo-600">{url}</span></h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Redirects */}
-            <div className="bg-indigo-50 p-4 rounded-lg shadow-sm">
-              <h3 className="font-semibold text-indigo-700 mb-2">Redirects</h3>
-              <p className="text-gray-700 text-lg">{result.redirectCount}</p>
-            </div>
+            
 
             {/* Auto-checked boxes */}
             <div className="bg-green-50 p-4 rounded-lg shadow-sm">
@@ -73,11 +69,7 @@ const Detector: React.FC = () => {
               {result.autoCheckedBoxes.length > 0 ? renderList(result.autoCheckedBoxes) : <p className="text-gray-500 text-sm">None found</p>}
             </div>
 
-            {/* Hidden buttons */}
-            <div className="bg-red-50 p-4 rounded-lg shadow-sm">
-              <h3 className="font-semibold text-red-700 mb-2">Hidden Buttons <span className="text-gray-500 text-sm">({result.hiddenButtons.length})</span></h3>
-              {result.hiddenButtons.length > 0 ? renderList(result.hiddenButtons) : <p className="text-gray-500 text-sm">None found</p>}
-            </div>
+            
 
             {/* Confirm-shaming */}
             <div className="bg-yellow-50 p-4 rounded-lg shadow-sm">
