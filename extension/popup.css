@@ -1,0 +1,312 @@
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+  width: 380px; 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+  min-height: 500px;
+}
+
+.header {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  padding: 16px;
+  color: white;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.header .subtitle {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.content {
+  padding: 16px;
+  background: white;
+  margin: 0;
+}
+
+#scoreContainer { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+canvas { 
+  display: block; 
+  margin: auto; 
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+}
+
+#trustLabel { 
+  margin-top: 12px; 
+  font-weight: 600; 
+  font-size: 16px;
+  color: #1e293b;
+}
+
+.trust-description {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 4px;
+  text-align: center;
+}
+
+#issuesList { 
+  max-height: 260px; 
+  overflow-y: auto; 
+  background: #fff; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 8px; 
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.category-header { 
+  font-weight: 600; 
+  padding: 12px 16px 8px;
+  color: #1e293b; 
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.issue-item { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start;
+  padding: 12px 16px; 
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+
+.issue-item:hover {
+  background: #f8fafc;
+}
+
+.issue-content {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.issue-snippet {
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.issue-detail {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.severity-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.severity-high { 
+  background: #fee2e2; 
+  color: #dc2626; 
+}
+
+.severity-medium { 
+  background: #fef3c7; 
+  color: #d97706; 
+}
+
+.severity-low { 
+  background: #ecfdf5; 
+  color: #059669; 
+}
+
+.issue-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.issue-item button { 
+  background: #3b82f6; 
+  border: none; 
+  color: white; 
+  padding: 6px 12px; 
+  font-size: 11px; 
+  border-radius: 6px; 
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.issue-item button:hover { 
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.issue-item button:active {
+  transform: translateY(0);
+}
+
+.no-issues {
+  text-align: center;
+  padding: 40px 20px;
+  color: #059669;
+}
+
+.no-issues .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-primary {
+  background: #10b981;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.stat {
+  text-align: center;
+  padding: 8px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.footer {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  font-size: 11px;
+  color: #64748b;
+  text-align: center;
+}
+
+.footer a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+}
+
+.spinner {
+  border: 2px solid #f1f5f9;
+  border-top: 2px solid #3b82f6;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Scrollbar styling */
+#issuesList::-webkit-scrollbar {
+  width: 6px;
+}
+
+#issuesList::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+#issuesList::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+#issuesList::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

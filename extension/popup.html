@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Dark UX Detector</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<div class="header">
+  <h2>🛡️ Dark UX Detector</h2>
+  <div class="subtitle">Protecting you from deceptive patterns</div>
+</div>
+
+<div class="content">
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div>Scanning page for dark patterns...</div>
+  </div>
+
+  <div id="results" style="display: none;">
+    <div id="scoreContainer">
+      <canvas id="scoreCircle" width="120" height="120"></canvas>
+      <div id="trustLabel">Trust Score: --</div>
+      <div class="trust-description" id="trustDescription">Analyzing...</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value" id="totalIssues">0</div>
+        <div class="stat-label">Issues</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="highSeverity">0</div>
+        <div class="stat-label">Critical</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="mediumSeverity">0</div>
+        <div class="stat-label">Medium</div>
+      </div>
+    </div>
+
+    <div id="issuesList"></div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="downloadReport">
+        📊 Report
+      </button>
+      <button class="btn btn-secondary" id="shareReport">
+        🔗 Share
+      </button>
+      <button class="btn btn-secondary" id="clearHighlights">
+        ✨ Clear
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div>Help improve this tool: <a href="#" id="reportFalsePositive">Report issue</a></div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
